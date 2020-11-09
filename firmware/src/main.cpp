@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <M5StickC.h>
 #include <driver/i2s.h>
 #include <esp_task_wdt.h>
 #include "I2SMicSampler.h"
@@ -22,7 +23,7 @@ i2s_config_t adcI2SConfig = {
     .tx_desc_auto_clear = false,
     .fixed_mclk = 0};
 
-//Change for the Atom Echo Mic
+//Change for the M5stack Mic It use PDM and need no add. Clock
 i2s_config_t i2sMemsConfigBothChannels = {
         .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
         .sample_rate = 16000,
@@ -63,6 +64,8 @@ void applicationTask(void *param)
 
 void setup()
 {
+  M5.begin();
+  M5.update();
   Serial.begin(115200);
   delay(1000);
   Serial.println("Starting up");
